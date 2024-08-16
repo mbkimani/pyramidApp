@@ -1,0 +1,14 @@
+version: 1.0
+runtime: python3
+run:
+  runtime-version: 3.8.16
+  command: uvicorn main:app --host 0.0.0.0 --port 8000
+  network:
+    port: 8000
+build:
+  commands:
+    build:
+    - sudo yum update -y
+    - sudo yum install -y gcc gcc-c++ make libffi-devel postgresql-devel
+    - pip install --no-cache-dir -r requirements.txt
+    - echo "$(python --version)"
