@@ -1,12 +1,8 @@
 version: 1.0
-runtime: python3
-run:
-  runtime-version: 3.8.16
-  command: uvicorn main:app --host 0.0.0.0 --port 8000
-  network:
-    port: 8000
+runtime: python3 
 build:
   commands:
     build:
-    - pip install --no-cache-dir -r requirements.txt
-    - echo "$(python --version)"
+      - pip install requirements.txt
+run: 
+  command: python app.py
