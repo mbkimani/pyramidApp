@@ -8,7 +8,5 @@ run:
 build:
   commands:
     build:
-    - sudo yum update -y
-    - sudo yum install -y gcc gcc-c++ make libffi-devel postgresql-devel
     - pip install --no-cache-dir -r requirements.txt
     - echo "$(python --version)"
