@@ -31,7 +31,7 @@ jobs:
           phases:
             build:
               commands:
-                - echo "Running build on ${{ matrix.architecture }}"
+                - echo "Running a build on ${{ matrix.architecture }}"
                 - uname -a
 
     - name: Get CodeBuild project name
