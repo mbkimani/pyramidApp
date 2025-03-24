@@ -1,24 +1,8 @@
-name: CI with ECR Image
-
-on:
-  push:
-    branches: [ main ]
-
+name: Hello World
+on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    container:
-      image: 590183761178.dkr.ecr.ap-southeast-1.amazonaws.com/myubuntu:25.04
-
+  Hello-World-Job:
+    runs-on:
+      - codebuild-Lambda-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Run in container
-      run: |
-        echo "Running in custom ECR container"
-        # Add your build commands here
-        uname -a
-        # More commands...
-
-    # Add more steps as needed
+      - run: echo "Hello World"
