@@ -35,7 +35,7 @@ jobs:
                 - uname -a
 
     - name: Get CodeBuild project name
-      id: codebuild-project-name
+      id: Lambda
       run: |
         PROJECT_NAME=$(aws codebuild list-projects --output text --query "projects[?tags.Architecture=='${{ matrix.architecture }}']")
         echo "project=$PROJECT_NAME" >> $GITHUB_OUTPUT
