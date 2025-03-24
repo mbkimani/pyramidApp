@@ -4,7 +4,7 @@ jobs:
   Hello-World-Job:
     runs-on:
       - codebuild-Lambda-${{ github.run_id }}-${{ github.run_attempt }}
-      - image:public.ecr.aws/docker/library/ubuntu:24.04
+      - image:590183761178.dkr.ecr.ap-southeast-1.amazonaws.com/myubuntu:25.04
       - instance-size:${{ matrix.size }}
       - buildspec-override:true
     strategy:
