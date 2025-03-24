@@ -4,5 +4,13 @@ jobs:
   Hello-World-Job:
     runs-on:
       - codebuild-Lambda-${{ github.run_id }}-${{ github.run_attempt }}
+      - image:${{ matrix.os }}
+      - instance-size:${{ matrix.size }}
+      - buildspec-override:true
+    strategy:
+      matrix:
+        include:
+          - os: arm-3.0
+            size: small
     steps:
       - run: echo "Hello World"
