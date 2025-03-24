@@ -1,19 +1,41 @@
-name: Hello World
-on: [push]
+name: AWS CodeBuild with Architecture Selection
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
-  Hello-World-Job:
-    runs-on:
-      - codebuild-Lambda-${{ github.run_id }}-${{ github.run_attempt }}
-      - image:${{ matrix.os }}
-      - instance-size:${{ matrix.size }}
-      - fleet:myFleet
-      - buildspec-override:true
+  build:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - os: arm-3.0
-            size: small
-          - os: linux-5.0
-            size: large
+        architecture: [arm64, x86_64]
+
     steps:
-      - run: echo "Hello World!"
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Run CodeBuild
+      uses: aws-actions/aws-codebuild-run-build@v1
+      with:
+        project-name: ${{ steps.codebuild-project-name.outputs.project }}
+        buildspec-override: |
+          version: 0.2
+          phases:
+            build:
+              commands:
+                - echo "Running build on ${{ matrix.architecture }}"
+                - uname -a
+
+    - name: Get CodeBuild project name
+      id: codebuild-project-name
+      run: |
+        PROJECT_NAME=$(aws codebuild list-projects --output text --query "projects[?tags.Architecture=='${{ matrix.architecture }}']")
+        echo "project=$PROJECT_NAME" >> $GITHUB_OUTPUT
