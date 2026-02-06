@@ -5,15 +5,4 @@ files:
     destination: /var/www/html
     overwrite: true
 file_exists_behavior: OVERWRITE
-hooks:
-  AfterInstall:
-    - location: deploy_scripts/install_composer_dependencies.sh
-      timeout: 300
-      runas: root
-    - location: deploy_scripts/start_server.sh
-      timeout: 30
-      runas: root
-  ApplicationStop:
-    - location: deploy_scripts/stop_server.sh
-      timeout: 30
-      runas: root
+
